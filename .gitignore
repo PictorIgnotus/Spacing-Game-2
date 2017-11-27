@@ -259,3 +259,10 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Building folders to ignore
+bin/**
+obj/**
+packages/**
+TestResults/**
+dokumentacio/**
