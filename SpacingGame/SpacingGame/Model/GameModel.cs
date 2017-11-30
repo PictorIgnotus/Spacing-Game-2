@@ -39,6 +39,11 @@ namespace SpacingGame.Model
         public GameModel(Tablesize tablesize)
         {
             this.tablesize = tablesize;
+            NewGame();
+        }
+
+        public void NewGame()
+        {
             this.spaceship = new Spaceship(new Koordinate(this.tablesize.first / 2, this.tablesize.second - 1));
             this.asteroids = new List<Asteroid>();
             this.numberOfAsteroidsToCreate = 1;
@@ -97,13 +102,13 @@ namespace SpacingGame.Model
         #endregion
 
         #region SpaceshipMethods
-        public void MoveSpaceShipLeft()
+        public void MoveSpaceshipLeft()
         {
             if (spaceship.KOORDINATE.first > 0)
                 spaceship.MoveTo(SpaceObject.Direction.Left);
         }
 
-        public void MoveSpaceShipRight()
+        public void MoveSpaceshipRight()
         {
             if (spaceship.KOORDINATE.first < tablesize.first - 1)
                 spaceship.MoveTo(SpaceObject.Direction.Right);

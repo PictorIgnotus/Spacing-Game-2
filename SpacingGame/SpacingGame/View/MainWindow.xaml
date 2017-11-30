@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:SpacingGame"
         mc:Ignorable="d"
         Title="Spacing Game" Height="526" Width="506">
+    <Window.InputBindings>
+        <KeyBinding Key="A" Command="{Binding MoveSpaceshipLeftCommand}" />
+        <KeyBinding Key="D" Command="{Binding MoveSpaceshipRightCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <ItemsControl Grid.Row="0" ItemsSource="{Binding Fields}">
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding Fields}" Background="Black">
             <!--az mezőket tároló vezérlő-->
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -23,7 +27,7 @@
             <ItemsControl.ItemTemplate>
                 <!--az elemek gombok lesznek-->
                 <DataTemplate>
-                    <Image  Source="{Binding ImageSource}" Focusable="False" RenderTransformOrigin="0.5, 0.5">
+                    <Image Source="{Binding ImageSource}" Focusable="False" RenderTransformOrigin="0.5, 0.5">
                         <!-- gomb háttérszíne -->
                         <!-- gomb méretezése (csak az animációnál használjuk ki) -->
                         <Image.RenderTransform>
@@ -46,7 +50,7 @@
                 <Button Name="NewGameButton" Command="{Binding NewGameCommand}" Content="New Game"/>
             </StatusBarItem>
             <StatusBarItem>
-                <Button Name="PauseGameButton" Command="{Binding PauseGameCommand}" Content="Pause" />
+                <Button Name="PauseGameButton" Command="{Binding PauseGameCommand}" Visibility="{Binding Visible}" Content="Pause" />
             </StatusBarItem>
             <StatusBarItem>
                 <Button Name="ExitGameButton" Command="{Binding ExitGameCommand}" Content="Exit"/>

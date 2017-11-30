@@ -22,9 +22,17 @@ namespace SpacingGame.ModelView
         public DelegateCommand NewGameCommand { get; private set; }
 
         /// <summary>
+        /// Szüneteltetés parancs lekérdezése.
+        /// </summary>
+        public DelegateCommand PauseGameCommand { get; private set; }
+
+        /// <summary>
         /// Kilépés parancs lekérdezése.
         /// </summary>
-        public DelegateCommand ExitCommand { get; private set; }
+        public DelegateCommand ExitGameCommand { get; private set; }
+
+        public DelegateCommand MoveSpaceshipLeftCommand { get; private set; }
+        public DelegateCommand MoveSpaceshipRightCommand { get; private set; }
 
         /// <summary>
         /// Játékmező gyűjtemény lekérdezése.
@@ -41,9 +49,17 @@ namespace SpacingGame.ModelView
         public event EventHandler NewGame;
 
         /// <summary>
+        /// Játék szüneteltetése esemény 
+        /// </summary>
+        public event EventHandler PauseGame;
+
+        /// <summary>
         /// Játékból való kilépés eseménye.
         /// </summary>
         public event EventHandler ExitGame;
+
+        public event EventHandler MoveSpaceshipLeft;
+        public event EventHandler MoveSpaceshipRight;
 
         #endregion
 
@@ -59,9 +75,11 @@ namespace SpacingGame.ModelView
             this.model = model;
             this.model.GameOver += new EventHandler<GameEventArgs>(Model_GameOver);
 
-            // parancsok kezelése
-            NewGameCommand = new DelegateCommand(param => { OnNewGame(); RefreshTable(); });
-            ExitCommand = new DelegateCommand(param => OnExitGame());
+            MoveSpaceshipLeftCommand = new DelegateCommand(param => OnMoveSpaceshipLeft());
+            MoveSpaceshipRightCommand = new DelegateCommand(param => OnMoveSpaceshipRight());
+            NewGameCommand = new DelegateCommand(param => { ClearTable(); OnNewGame();});
+            PauseGameCommand = new DelegateCommand(param => OnPauseGame());
+            ExitGameCommand = new DelegateCommand(param => OnExitGame());
 
             // játéktábla létrehozása
             Fields = new ObservableCollection<SGField>();
@@ -78,15 +96,22 @@ namespace SpacingGame.ModelView
                     });
                 }
             }
-
-            SetSpaceshipImage()
         }
 
         #endregion
 
+        private void ClearTable()
+        {
+            foreach (var Field in Fields)
+            {
+                Field.ImageSource = null;
+            }
+        }
+
+
         private void Model_GameOver(object sender, GameEventArgs e)
         {
-            
+
         }
 
         private void OnNewGame()
@@ -95,26 +120,44 @@ namespace SpacingGame.ModelView
                 NewGame(this, EventArgs.Empty);
         }
 
+        private void OnPauseGame()
+        {
+            if (PauseGame != null)
+                PauseGame(this, EventArgs.Empty);
+        }
+
         private void OnExitGame()
         {
             if (ExitGame != null)
                 ExitGame(this, EventArgs.Empty);
         }
 
-        private void SetAsteroidsImage(String imageSource)
+        private void OnMoveSpaceshipLeft()
+        {
+            if (MoveSpaceshipLeft != null)
+                MoveSpaceshipLeft(this, EventArgs.Empty);
+        }
+
+        private void OnMoveSpaceshipRight()
+        {
+            if (MoveSpaceshipRight != null)
+                MoveSpaceshipRight(this, EventArgs.Empty);
+        }
+
+        public void SetAsteroidsImage(String imageSource)
         {
             var asteroids = model.ASTEROIDS;
             foreach (var asteroid in asteroids)
             {
                 var koordinates = asteroid.KOORDINATE;
-                Fields[koordinates.first * model.TABLESIZE.second + koordinates.second].ImageSource = imageSource;
+                Fields[koordinates.second * model.TABLESIZE.first + koordinates.first].ImageSource = imageSource;
             }
         }
 
-        private void SetSpaceshipImage(String imageSource)
+        public void SetSpaceshipImage(String imageSource)
         {
             var spaceshipkoor = model.SPACESHIP.KOORDINATE;
-            Fields[spaceshipkoor.first * model.TABLESIZE.second + spaceshipkoor.second].ImageSource = imageSource;
+            Fields[spaceshipkoor.second * model.TABLESIZE.first + spaceshipkoor.first].ImageSource = imageSource;
         }
     }
 }

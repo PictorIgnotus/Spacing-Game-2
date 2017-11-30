@@ -145,14 +145,14 @@ namespace SpacingGame.Model.Tests
         [TestMethod]
         public void GameModelMoveLeftSpaceShip()
         {
-            model.MoveSpaceShipLeft();
+            model.MoveSpaceshipLeft();
             Assert.AreEqual(new Koordinate(9, 39), model.SPACESHIP.KOORDINATE);
         }
 
         [TestMethod]
         public void GameModelMoveRightSpaceShip()
         {
-            model.MoveSpaceShipRight();
+            model.MoveSpaceshipRight();
             Assert.AreEqual(new Koordinate(11, 39), model.SPACESHIP.KOORDINATE);
         }
 
@@ -161,7 +161,7 @@ namespace SpacingGame.Model.Tests
         {
             for (int i = 0; i < 30; ++i)
             {
-                model.MoveSpaceShipLeft();
+                model.MoveSpaceshipLeft();
             }
             Assert.AreEqual(new Koordinate(0, 39), model.SPACESHIP.KOORDINATE);
         }
@@ -171,7 +171,7 @@ namespace SpacingGame.Model.Tests
         {
             for (int i = 0; i < 30; ++i)
             {
-                model.MoveSpaceShipRight();
+                model.MoveSpaceshipRight();
             }
             Assert.AreEqual(new Koordinate(20, 39), model.SPACESHIP.KOORDINATE);
         }
@@ -206,7 +206,7 @@ namespace SpacingGame.Model.Tests
             Assert.AreEqual(21, model.ASTEROIDS.Count);
             for (int i = 0; i < 10; ++i)
             {
-                model.MoveSpaceShipLeft();
+                model.MoveSpaceshipLeft();
             }
             for (int i = 0; i < 39; ++i)
             {
